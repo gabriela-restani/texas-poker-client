@@ -6,3 +6,8 @@ export interface CardProps {
   height?: number;
   className?: string;
 }
+
+export interface PlayerHandProps {
+  cards: CardProps["cardKey"][];
+  className?: string;
+}
