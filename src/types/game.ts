@@ -11,3 +11,8 @@ export interface PlayerHandProps {
   cards: CardProps["cardKey"][];
   className?: string;
 }
+
+export interface PlayerProps {
+  playerName: string;
+  playerHand: PlayerHandProps[];
+}
