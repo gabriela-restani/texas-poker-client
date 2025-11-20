@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { HandsRankingModal } from '@/components/modals/HandsRankingModal';
 export function TheHeader() {
