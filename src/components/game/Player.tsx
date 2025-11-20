@@ -6,7 +6,7 @@ export function Player({ playerName, playerHand }: PlayerProps) {
   return (
     <div className="relative flex flex-col items-center w-52 h-36">
       <PlayerHand 
-        cards={playerHand} 
+        cards={playerHand.cards} 
         className="mb-4"
       />
       <div className="absolute min-w-48 w-fit bg-blue-600 rounded-full 

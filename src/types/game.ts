@@ -14,5 +14,5 @@ export interface PlayerHandProps {
 
 export interface PlayerProps {
   playerName: string;
-  playerHand: PlayerHandProps[];
+  playerHand: PlayerHandProps;
 }
