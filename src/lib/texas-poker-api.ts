@@ -35,8 +35,8 @@ class TexasPokerAPI {
   }
 
   // create /players - Listar jogadores
-  async addPlayer(payload: PlayerPayload): Promise<PlayerCreateResponse[]> {
-    return this.request<PlayerCreateResponse[]>('/players', {
+  async addPlayer(payload: PlayerPayload): Promise<PlayerCreateResponse> {
+    return this.request<PlayerCreateResponse>('/players', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
