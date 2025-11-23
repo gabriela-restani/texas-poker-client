@@ -16,3 +16,13 @@ export interface PlayerProps {
   playerName: string;
   playerHand: PlayerHandProps;
 }
+
+export interface Room {
+  id: number;
+  name: string;
+  max_players: number;
+  current_players: number;
+  players: any[];
+  has_game: boolean;
+  game_status: string | null;
+}

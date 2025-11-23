@@ -10,6 +10,7 @@ import type {
   GameStatePayload,
   GameActionPayload,
 } from '@/types/lib/texas-poker-api';
+import type { Room } from '@/types/game';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
@@ -49,8 +50,8 @@ class TexasPokerAPI {
   }
 
 
-  async getRooms(): Promise<string[]> {
-    return this.request<string[]>('/rooms', {
+  async getRooms(): Promise<Room[]> {
+    return this.request<Room[]>('/rooms', {
       method: 'GET',
     });
   }
