@@ -1,5 +1,5 @@
 import React from "react";
-import { UiModal } from "@/components/ui/ui-modal";
+import { UiModal } from "@/components/ui/UiModal";
 import type { HandsRankingModalProps } from "@/types/modals";
 
 export function HandsRankingModal({ id }: HandsRankingModalProps) {
