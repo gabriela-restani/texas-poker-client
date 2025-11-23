@@ -19,7 +19,7 @@ export interface PlayerCreateResponse {
 export interface RoomPayload {
   room: {
     name: string;
-    maxPlayers: number;
+    max_players: number;
   };
 }
 
