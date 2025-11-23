@@ -2,32 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { texasPokerAPI } from "@/lib/texas-poker-api";
 import type { Room } from "@/types/game";
-import { UiModal } from "@/components/ui/UiModal";
+import { EnterRoomForm } from "@/components/room/EnterRoomForm";
 
 export function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]); // Lista de salas
   const [isLoading, setIsLoading] = useState(true); // Indicador de carregamento
   const [error, setError] = useState<string | null>(null); // Mensagens de erro
-  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
-
-  async function handleConfirmEnterRoom() {
-    try {
-      const playerData = localStorage.getItem('player');
-      if (!playerData) {
-        setError("Usuário não autenticado.");
-        return;
-      }
-
-      console.log("Entrando na sala:", selectedRoom, "com jogador:", playerData);
-      const player = JSON.parse(playerData);
-      await texasPokerAPI.joinRoom({ roomId: selectedRoom!.id, playerId: player.id });
-      setSelectedRoom(null);
-    } catch (err) {
-      console.error("Erro ao entrar na sala:", err);
-      setError("Não foi possível entrar na sala. Tente novamente.");
-    }
-  }
-  
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);  
 
   function handleRoomSelect(room: Room) {
     setSelectedRoom(room);
@@ -99,20 +80,10 @@ export function RoomsList() {
             </li>
           ))}
         </ul>
-        <UiModal
-          id="enter-room-modal"
-        >
-          Deseja entrar na sala {selectedRoom?.name}?
-
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={handleConfirmEnterRoom}
-            popoverTargetAction="hide"
-            popoverTarget="enter-room-modal"
-          >
-            Confirmar
-          </button>
-        </UiModal>
+        <EnterRoomForm 
+          id="enter-room-modal" 
+          selectedRoom={selectedRoom}
+        />
       </>
       )}
     </div>
