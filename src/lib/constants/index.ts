@@ -53,3 +53,6 @@ export const DECK_SVG_MAP = {
   "KC": "KC.svg",
   "XX": "back.svg",
 }
+
+export const INITIAL_COMMUNITY_CARDS: (keyof typeof DECK_SVG_MAP)[] = ["XX", "XX", "XX", "XX", "XX"];
+export const INITIAL_PLAYER_HAND: (keyof typeof DECK_SVG_MAP)[] = ["XX", "XX"];
