@@ -13,8 +13,12 @@ export interface PlayerHandProps {
 }
 
 export interface PlayerProps {
-  playerName: string;
-  playerHand: PlayerHandProps;
+  player: {
+    id: string;
+    name: string;
+    cards: CardProps["cardKey"][];
+  }
+  isCurrentTurn: boolean;
 }
 
 export interface Room {
