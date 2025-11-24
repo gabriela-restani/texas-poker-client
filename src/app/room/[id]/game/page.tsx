@@ -217,7 +217,7 @@ export default function GamePage({ params }: GamePageProps) {
         wsRef.current.close();
       }
     };
-  }, [roomId, player?.id, setRoomState, fetchGameState]);
+  }, [roomId, player?.id, setRoomState, fetchGameState, goToNextPhase]);
 
   return (
     <div style={{ padding: '20px' }}>
