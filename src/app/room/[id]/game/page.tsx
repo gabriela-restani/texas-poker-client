@@ -7,6 +7,7 @@ import { CommunityCards } from '@/components/game/CommunityCards';
 import { 
   INITIAL_COMMUNITY_CARDS,
   GAME_PHASES_MAP,
+  DECK_SVG_MAP,
 } from '@/lib/constants';
 import { Player } from '@/components/game/Player';
 import type { PlayerProps } from '@/types/game';
@@ -14,6 +15,7 @@ import type { GameStateWinnerData } from '@/types/lib/texas-poker-api';
 import { UiModal } from '@/components/ui/UiModal';
 import { UiButton } from '@/components/ui/UiButton';
 import { RaiseForm } from '@/components/game/RaiseForm';
+import { Card } from '@/components/game/Card';
 
 interface GamePageProps {
   params: Promise<{ id: string }>;
@@ -76,7 +78,7 @@ export default function GamePage({ params }: GamePageProps) {
       });
       console.log('Estado do Jogo:', state);
       setRoomState(state);
-      setWinnerData(state.winners_data || null);
+      setWinnerData(state.winner_data || null);
     } catch (error) {
       console.error('Erro ao buscar estado do jogo:', error);
     }
@@ -231,12 +233,14 @@ export default function GamePage({ params }: GamePageProps) {
             
             if (state.phase === 'finished') {
               console.log('Jogo finalizado, definindo vencedores:', state.winners);
+              setWinnerData(state.winner_data || null);
               endGame();
             }
             break;
           case 'game_ended':
             state = data.message?.state;
             setRoomState(state);
+            setWinnerData(state.winner_data || null);
             break;
           default:
             console.log('Tipo de mensagem não tratado:', data.message.type);
@@ -366,29 +370,44 @@ export default function GamePage({ params }: GamePageProps) {
           </UiButton>
         </div>
       </div>
-      <Table>
-        <CommunityCards cards={roomState?.community_cards.length ? roomState.community_cards : INITIAL_COMMUNITY_CARDS} />
-      </Table>
+      {
+        !isGameFinished && (<>
+        <Table>
+          <CommunityCards cards={roomState?.community_cards.length ? roomState.community_cards : INITIAL_COMMUNITY_CARDS} />
+        </Table>
 
-      <div className="flex flex-wrap gap-4 mt-4">
-        {roomState && roomState.players.map((p: PlayerProps["player"]) => (
-          <Player 
-            key={p.id} 
-            player={p} 
-            isCurrentTurn={roomState.current_turn_player_id === p.id} 
-          />
-        ))}
-      </div>
+        <div className="flex flex-wrap gap-4 mt-4">
+          {roomState && roomState.players.map((p: PlayerProps["player"]) => (
+            <Player 
+              key={p.id} 
+              player={p} 
+              isCurrentTurn={roomState.current_turn_player_id === p.id} 
+            />
+          ))}
+        </div>
+        </>)
 
-      { (
-        <div className="mt-4 p-4 border rounded">
+      }
+
+      {isGameFinished && winnerData?.winners && (
+        <div className="mt-4 p-4 border rounded w-fit" >
           <h2 className="text-xl font-bold mb-2">Winners:</h2>
           <ul>
-            {winnerData?.winners.map((winner) => {
+            {winnerData.winners.map((winner) => {
               console.log('Vencedor:', winner);
               return (
-              <li key={winner.id} className="text-lg text-amber-100">
-                {winner.name}
+              <li key={winner.id} className="text-lg">
+                <div>
+                  Player: {winner.name} - Hand: {winner.hand} - Winnings: {winner.amount_won}
+                </div>
+                <div className="flex flex-row gap-2 mt-2">
+                  {winner.hand_cards.map((card: string, index: number) => (
+                    <Card 
+                      key={index} 
+                      cardKey={card as keyof typeof DECK_SVG_MAP} 
+                    />
+                  ))}
+                </div>
               </li>
             )})}
           </ul>

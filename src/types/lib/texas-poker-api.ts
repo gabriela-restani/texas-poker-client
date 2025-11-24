@@ -76,7 +76,7 @@ export interface GameStateResponse {
   small_blind_position: number;
   big_blind_position: number;
   current_turn_player_id: number;
-  winners_data?: GameStateWinnerData;
+  winner_data?: GameStateWinnerData;
   community_cards: string[];
   players: GameStatePlayer[];
   pot: number;
