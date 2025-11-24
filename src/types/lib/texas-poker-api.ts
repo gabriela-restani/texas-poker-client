@@ -56,12 +56,27 @@ export interface GameStatePayload {
   roomId: number;
   playerId?: number;
 }
+
+export interface GameStateWinner {
+  id: number;
+  name: string;
+  hand: string;
+  hand_cards: string[];
+  amount_won: number;
+  cards: string[];
+}
+export interface GameStateWinnerData {
+  winners: GameStateWinner[];
+  pot: number;
+  community_cards: string[];
+}
 export interface GameStateResponse {
   phase: 'pre-flop' | 'flop' | 'turn' | 'river' | 'showdown';
   dealer_position: number;
   small_blind_position: number;
   big_blind_position: number;
   current_turn_player_id: number;
+  winners_data?: GameStateWinnerData;
   community_cards: string[];
   players: GameStatePlayer[];
   pot: number;

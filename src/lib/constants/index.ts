@@ -52,7 +52,16 @@ export const DECK_SVG_MAP = {
   "QC": "QC.svg",
   "KC": "KC.svg",
   "XX": "back.svg",
-}
+};
 
 export const INITIAL_COMMUNITY_CARDS: (keyof typeof DECK_SVG_MAP)[] = ["XX", "XX", "XX", "XX", "XX"];
 export const INITIAL_PLAYER_HAND: (keyof typeof DECK_SVG_MAP)[] = ["XX", "XX"];
+
+export const GAME_PHASES_MAP = {
+  pre_flop: "Pré-Flop",
+  flop: "Flop",
+  turn: "Turn",
+  river: "River",
+  showdown: "Showdown",
+  finished: "Finalizado",
+};
