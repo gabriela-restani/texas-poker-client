@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Configurando o projeto em dev
 
-## Getting Started
+### Clone o repositório `texas-poker`
+O repositório `texas-poker` contém a configuração do docker-compose e as envs necessárias para subir local
 
-First, run the development server:
-
+- SSH:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:gabriela-restani/texas-poker.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- HTTPS:
+```bash
+git clone https://github.com/gabriela-restani/texas-poker.git
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Clone o backend e o frontend dentro de texas-poker
+Dentro do repositório `texas-poker`, clone o backend:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- SSH
+```bash
+git clone git@github.com:gabriela-restani/texas-poker-backend.git
+```
 
-## Learn More
+- HTTPS:
+```bash
+git clone https://github.com/gabriela-restani/texas-poker-backend.git
+```
 
-To learn more about Next.js, take a look at the following resources:
+E esse repositório do frontend:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- SSH:
+```bash
+git clone git@github.com:gabriela-restani/texas-poker-client.git
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-HTTPS:
+```bash
+git clone https://github.com/gabriela-restani/texas-poker-client.git
+```
 
-## Deploy on Vercel
+### Subindo a aplicação
+Dentro do repositório `texas-poker`, execute:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker compose up texas-poker-client
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Esse comando vai subir o frontend, backend, banco de dados postgres e o redis.
+
+Após subir o projeto, basta acessar `http://localhost:3050` ou a porta configurada nas envs.
