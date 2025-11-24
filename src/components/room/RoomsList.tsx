@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { texasPokerAPI } from "@/lib/texas-poker-api";
 import type { Room } from "@/types/game";
 import { EnterRoomForm } from "@/components/room/EnterRoomForm";
+import { UiButton } from "@/components/ui/UiButton";
 
 export function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]); // Lista de salas
@@ -37,9 +38,11 @@ export function RoomsList() {
 
     fetchRooms(true);
 
+    console.log(rooms)
+
     const intervalId = setInterval(() => fetchRooms(false), 5000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [rooms.length]);
 
   return (
     <div className="w-full">
@@ -60,9 +63,9 @@ export function RoomsList() {
               key={room.id}
               className="p-4 border border-gray-300 rounded-md hover:shadow-md transition"
             >
-              <button
+              <UiButton
                 className="w-full text-left cursor-pointer disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
-                disabled={room.current_players >= room.max_players || room.game_status === "in_progress"}
+                disabled={room.current_players.length >= room.max_players || room.game_status === "in_progress"}
                 onClick={() => handleRoomSelect(room)}
                 popoverTarget="enter-room-modal"
               >
@@ -71,12 +74,12 @@ export function RoomsList() {
                   <span className="text-sm font-bold text-neutral-400">(#{room.id})</span>
                 </div>
                 <p>
-                  Jogadores: {room.current_players} / {room.max_players}
+                  Jogadores: {room.current_players.length} / {room.max_players}
                 </p>
                 <p>
                   Status do Jogo: {room.has_game ? room.game_status : "Nenhum jogo em andamento"}
                 </p>
-              </button>
+              </UiButton>
             </li>
           ))}
         </ul>

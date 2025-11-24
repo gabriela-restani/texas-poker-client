@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { texasPokerAPI } from "@/lib/texas-poker-api";
+import { UiButton } from "@/components/ui/UiButton";
 
 interface LoginFormProps {
   onLoginSuccess?: (playerData: { id: number; name: string }) => void;
@@ -65,7 +66,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
           placeholder="Enter your username"
         />
       </div>
-      <button
+      <UiButton
         type="submit"
         disabled={isLoading}
         className="bg-blue-600 text-white font-bold py-2 rounded-md
@@ -73,7 +74,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
           disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? "Entrando..." : "Login"}
-      </button>
+      </UiButton>
     </form>
   );
 }

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import type { Room } from "@/types/game";
 import { UiModal } from "@/components/ui/UiModal";
+import { UiButton } from "@/components/ui/UiButton";
 import { texasPokerAPI } from "@/lib/texas-poker-api";
 import { useRouter } from 'next/navigation';
 
@@ -41,11 +42,11 @@ export function EnterRoomForm({ id, selectedRoom }: { id: string, selectedRoom: 
       {error && (
         <div className="text-red-500 mb-4">{error}</div>
       )}
-      <button
+      <UiButton
         onClick={handleConfirmEnterRoom}
       >
         Confirmar
-      </button>
+      </UiButton>
     </UiModal>
   );
 }

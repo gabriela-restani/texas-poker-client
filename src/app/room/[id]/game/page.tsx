@@ -6,6 +6,9 @@ import { CommunityCards } from '@/components/game/CommunityCards';
 import { INITIAL_COMMUNITY_CARDS } from '@/lib/constants';
 import { Player } from '@/components/game/Player';
 import type { PlayerProps } from '@/types/game';
+import { UiModal } from '@/components/ui/UiModal';
+import { UiButton } from '@/components/ui/UiButton';
+import { RaiseForm } from '@/components/game/RaiseForm';
 
 interface GamePageProps {
   params: Promise<{ id: string }>;
@@ -15,7 +18,6 @@ export default function GamePage({ params }: GamePageProps) {
   const [roomState, setRoomState] = useState<any>(null);
   const [roomId] = useState<string>(React.use(params).id);
   const [isConnected, setIsConnected] = useState(false);
-  const [communityCards, setCommunityCards] = useState<any[]>(INITIAL_COMMUNITY_CARDS);
 
   const [player] = useState<{ name: string, id: string , chips: number }>(() => {
     if (typeof window !== 'undefined') {
@@ -154,11 +156,9 @@ export default function GamePage({ params }: GamePageProps) {
       if (data.type === 'ping' || data.type === 'welcome' || data.type === 'confirm_subscription') {
         return
       }
-
-      console.log('Mensagem WebSocket:', data);
       
       if (data.message) {
-        console.log('Tipo:', data.message.type)
+        let state;
 
         switch (data.message.type) {
           case 'player_connected':
@@ -173,7 +173,7 @@ export default function GamePage({ params }: GamePageProps) {
           case 'player_action':
             console.log('Ação do jogador:', data.message);
             
-            const state = data.message?.state;
+            state = data.message?.state;
             
             if (state.betting_round_complete) {
               goToNextPhase();
@@ -182,7 +182,13 @@ export default function GamePage({ params }: GamePageProps) {
             fetchGameState();
             break;
           case 'phase_changed':
-            console.log('Fase alterada:', data.message);
+            state = data.message?.state;
+            setRoomState(state);
+
+            if (state.phase === 'finished') {
+              console.log('Jogo finalizado. Mostrando vencedores...');
+            }
+
             break;
           case 'game_updated':
           case 'round_updated':
@@ -226,9 +232,9 @@ export default function GamePage({ params }: GamePageProps) {
         Status: {isConnected ? '🟢 Conectado' : '🔴 Desconectado'}
       </div>
 
-      <button onClick={startGame} style={{ marginBottom: '20px' }}>
+      <UiButton onClick={startGame} style={{ marginBottom: '20px' }}>
         Iniciar Jogo
-      </button>
+      </UiButton>
 
       <div style={{
         border: '1px solid #ccc',
@@ -241,29 +247,41 @@ export default function GamePage({ params }: GamePageProps) {
         <pre>{JSON.stringify(roomState, null, 2)}</pre>
       </div>
       <div className="flex flex-col gap-2">
+        <span>Game Phase: {roomState?.phase}</span>
+        <span>Pot: {roomState?.pot}</span>
         <span>
           Turno de: { roomState?.players?.find((p: PlayerProps["player"]) => p.id === roomState.current_turn_player_id)?.name }
         </span>
         <div className="flex gap-2">
-          <button
+          <UiButton
             onClick={handleCheckAction}
           >
             Check
-          </button>
-          <button
+          </UiButton>
+          <UiButton
             onClick={handleCallAction}
           >
             Call
-          </button>
-          <button>
+          </UiButton>
+          <UiButton popoverTarget='raise-modal'>
             Raise
-          </button>
-          <button>
+          </UiButton>
+          <UiModal id='raise-modal'>
+            <RaiseForm
+              onSubmit={(amount: number) => {
+                handleRaiseAction(amount);
+                const modal = document.getElementById('raise-modal');
+                if (modal) {
+                  modal.hidePopover();
+                }
+              }}
+            />
+          </UiModal>
+          <UiButton
+            onClick={handleFoldAction}
+          >
             Fold
-          </button>
-          <button>
-            Show down
-          </button>
+          </UiButton>
         </div>
       </div>
       <Table>

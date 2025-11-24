@@ -1,5 +1,6 @@
 import React from "react";
 import { UiModal } from "@/components/ui/UiModal";
+import { UiButton } from "@/components/ui/UiButton";
 import { texasPokerAPI } from "@/lib/texas-poker-api";
 
 export function CreateRoomForm({ id }: { id: string }) {
@@ -51,12 +52,12 @@ export function CreateRoomForm({ id }: { id: string }) {
               required 
             />
           </label>
-          <button
+          <UiButton
             type="submit"
             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Create Room
-          </button>
+          </UiButton>
         </form>
 
       </div>
