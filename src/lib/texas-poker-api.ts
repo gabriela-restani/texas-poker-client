@@ -10,6 +10,7 @@ import type {
   GameStatePayload,
   GameActionPayload,
 } from '@/types/lib/texas-poker-api';
+import type { Room } from '@/types/game';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
@@ -49,8 +50,8 @@ class TexasPokerAPI {
   }
 
 
-  async getRooms(): Promise<string[]> {
-    return this.request<string[]>('/rooms', {
+  async getRooms(): Promise<Room[]> {
+    return this.request<Room[]>('/rooms', {
       method: 'GET',
     });
   }
@@ -96,14 +97,14 @@ class TexasPokerAPI {
   }
 
   async makeGameAction(payload: GameActionPayload): Promise<DefaultResponse> {
-    return this.request<DefaultResponse>(`/game/${payload.roomId}/action`, {
+    return this.request<DefaultResponse>(`/rooms/${payload.room_id}/action`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
   }
 
   async goToNextPhase(roomId: number): Promise<DefaultResponse> {
-    return this.request<DefaultResponse>(`/rooms/${roomId}/next-phase`, {
+    return this.request<DefaultResponse>(`/rooms/${roomId}/next_phase`, {
       method: 'POST',
     });
   }
