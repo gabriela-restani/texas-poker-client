@@ -12,6 +12,12 @@ export interface PlayerHandProps {
   className?: string;
 }
 
+type Player = {
+  id: string;
+  name: string;
+  chips: number;
+}
+
 export interface PlayerProps {
   player: {
     id: string;
@@ -25,8 +31,7 @@ export interface Room {
   id: number;
   name: string;
   max_players: number;
-  current_players: number;
-  players: any[];
+  current_players: Player[];
   has_game: boolean;
   game_status: string | null;
 }
