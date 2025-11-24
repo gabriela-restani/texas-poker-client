@@ -48,3 +48,12 @@ docker compose up texas-poker-client
 Esse comando vai subir o frontend, backend, banco de dados postgres e o redis.
 
 Após subir o projeto, basta acessar `http://localhost:3050` ou a porta configurada nas envs.
+
+## Melhorias que precisam ser feitas:
+
+- Adicionar cobertura de testes
+- Deixar de fazer pooling no RoomList e converter em SSE (aguardar a notificação do server de novas adições de salas)
+- Melhorar a UI e UX do jogo
+- Deixar a aplicação responsiva
+- Corrigir warnings de hidratação
+- Refatorar a página GamePage, pois está com muitas responsabilidades
