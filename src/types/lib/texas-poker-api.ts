@@ -71,6 +71,6 @@ export interface GameStateResponse {
 export interface GameActionPayload {
   action: 'fold' | 'check' | 'call' | 'raise';
   amount?: number;
-  playerId: number;
-  roomId: number;
+  player_id: number;
+  room_id: number;
 }

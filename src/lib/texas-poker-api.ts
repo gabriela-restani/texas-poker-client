@@ -97,14 +97,14 @@ class TexasPokerAPI {
   }
 
   async makeGameAction(payload: GameActionPayload): Promise<DefaultResponse> {
-    return this.request<DefaultResponse>(`/game/${payload.roomId}/action`, {
+    return this.request<DefaultResponse>(`/rooms/${payload.room_id}/action`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
   }
 
   async goToNextPhase(roomId: number): Promise<DefaultResponse> {
-    return this.request<DefaultResponse>(`/rooms/${roomId}/next-phase`, {
+    return this.request<DefaultResponse>(`/rooms/${roomId}/next_phase`, {
       method: 'POST',
     });
   }
