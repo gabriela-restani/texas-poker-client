@@ -65,3 +65,16 @@ export const GAME_PHASES_MAP = {
   showdown: "Showdown",
   finished: "Finalizado",
 };
+
+export const HANDS_RANKINGS = {
+  ROYAL_FLUSH: ["AD", "KD", "QD", "JD", "TD"],
+  STRAIGHT_FLUSH: ["JS", "TS","9S", "8S", "7S"],
+  FOUR_OF_A_KIND: ["9H", "9D", "9S", "9C", "2D"],
+  FULL_HOUSE: ["KH", "KD", "KS", "3C", "3D"],
+  FLUSH: ["2H", "5H", "9H", "JH", "KH"],
+  STRAIGHT: ["4D", "5S", "6H", "7C", "8D"],
+  THREE_OF_A_KIND: ["QC", "QS", "QH", "8D", "2S"],
+  TWO_PAIR: ["JD", "JS", "4C", "4H", "9S"],
+  ONE_PAIR: ["7D", "7S", "3H", "9C", "KH"],
+  HIGH_CARD: ["AS", "KD", "7H", "5C", "2D"],
+}
