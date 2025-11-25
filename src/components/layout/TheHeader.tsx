@@ -6,9 +6,12 @@ import { UiButton } from '@/components/ui/UiButton';
 export function TheHeader() {
   return (
     <header 
-      className="flex flex-row items-center justify-end 
-        w-full bg-neutral-300 text-neutral-900"
+      className="flex flex-row items-center justify-between 
+        w-full bg-green-900 text-neutral-900 px-6 py-4"
     >
+      <span className="text-2xl font-bold ml-4 text-neutral-50">
+        Lia Texas Poker
+      </span>
       <UiButton 
         popoverTarget="hands-ranking-dialog"
       >

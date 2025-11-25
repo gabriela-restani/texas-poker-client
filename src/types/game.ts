@@ -23,7 +23,7 @@ export interface PlayerProps {
     id: string;
     name: string;
     cards: CardProps["cardKey"][];
-  }
+  } | null | undefined;
   isCurrentTurn: boolean;
 }
 

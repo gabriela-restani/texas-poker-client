@@ -277,10 +277,10 @@ export default function GamePage({ params }: GamePageProps) {
   ]);
 
   return (
-    <div className="flex flex-col gap-4 p-5">
-      <h1>Game Room {roomId}</h1>
+    <div className="flex flex-col gap-4 p-10 justify-center items-center w-full">
+      <h1 className="text-4xl font-bold">Game Room {roomId}</h1>
       
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center w-full">
         <div 
           className={`w-fit p-3 rounded-lg
             ${isConnected ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100'}
@@ -296,6 +296,7 @@ export default function GamePage({ params }: GamePageProps) {
           >
             Iniciar Jogo
           </UiButton>
+
           <UiButton 
             className="bg-red-600 hover:bg-red-700 text-white"
             disabled={isGameStarted && !isGameFinished}
@@ -303,6 +304,7 @@ export default function GamePage({ params }: GamePageProps) {
           >
             Sair da Sala
           </UiButton>
+
           <UiModal id='leave-game-modal'>
             <div className="flex flex-col items-center">
               <h2 className="text-2xl font-bold mb-4">Deseja sair da sala?</h2>
@@ -326,93 +328,154 @@ export default function GamePage({ params }: GamePageProps) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <span>Game Phase: {GAME_PHASES_MAP[roomState?.phase]}</span>
-        <span>Pot: {roomState?.pot}</span>
-        <span>
-          Turno de: { roomState?.players?.find((p: PlayerProps["player"]) => p.id === roomState.current_turn_player_id)?.name }
-        </span>
-        <div className="flex gap-2">
-          <UiButton
-            onClick={handleCheckAction}
-            disabled={isGameFinished || !isPlayersTurn}
-          >
-            Check
-          </UiButton>
-          <UiButton
-            onClick={handleCallAction}
-            disabled={isGameFinished || !isPlayersTurn}
-          >
-            Call
-          </UiButton>
-          <UiButton 
-            popoverTarget='raise-modal'
-            disabled={isGameFinished || !isPlayersTurn}
-          >
-            Raise
-          </UiButton>
-          <UiModal id='raise-modal'>
-            <RaiseForm
-              onSubmit={(amount: number) => {
-                handleRaiseAction(amount);
-                const modal = document.getElementById('raise-modal');
-                if (modal) {
-                  modal.hidePopover();
-                }
-              }}
-            />
-          </UiModal>
-          <UiButton
-            onClick={handleFoldAction}
-            disabled={isGameFinished || !isPlayersTurn}
-          >
-            Fold
-          </UiButton>
+      <div className="flex flex-row gap-2 w-full justify-between">
+        <div className="p-4 w-80 border rounded-lg flex flex-col gap-1 bg-neutral-100 text-neutral-900">
+          <h2 className="text-xl font-bold mb-2">informações:</h2>
+          <span>Fase: {GAME_PHASES_MAP[roomState?.phase]}</span>
+          <span>Pot: {roomState?.pot}</span>
+          <span>
+            Turno de: { roomState?.players?.find((p: PlayerProps["player"]) => p.id === roomState.current_turn_player_id)?.name }
+          </span>
+        </div>
+
+        {isGameFinished && winnerData?.winners && (
+          <div className="mt-4 p-4 border rounded w-fit" >
+            <h2 className="text-xl font-bold mb-2">Winners:</h2>
+            <ul>
+              {winnerData.winners.map((winner) => {
+                console.log('Vencedor:', winner);
+                return (
+                <li key={winner.id} className="text-lg">
+                  <div>
+                    Player: {winner.name} - Hand: {winner.hand} - Winnings: {winner.amount_won}
+                  </div>
+                  <div className="flex flex-row gap-2 mt-2">
+                    {winner.hand_cards.map((card: string, index: number) => (
+                      <Card 
+                        key={index} 
+                        cardKey={card as keyof typeof DECK_SVG_MAP} 
+                      />
+                    ))}
+                  </div>
+                </li>
+              )})}
+            </ul>
+          </div>
+        )}
+
+        <div>
+          <h2 className="text-xl font-bold mb-2">Ações:</h2>
+          <div className="flex gap-2">
+            <UiButton
+              onClick={handleCheckAction}
+              disabled={isGameFinished || !isPlayersTurn}
+            >
+              Check
+            </UiButton>
+            <UiButton
+              onClick={handleCallAction}
+              disabled={isGameFinished || !isPlayersTurn}
+            >
+              Call
+            </UiButton>
+            <UiButton 
+              popoverTarget='raise-modal'
+              disabled={isGameFinished || !isPlayersTurn}
+            >
+              Raise
+            </UiButton>
+            <UiModal id='raise-modal'>
+              <RaiseForm
+                onSubmit={(amount: number) => {
+                  handleRaiseAction(amount);
+                  const modal = document.getElementById('raise-modal');
+                  if (modal) {
+                    modal.hidePopover();
+                  }
+                }}
+              />
+            </UiModal>
+            <UiButton
+              onClick={handleFoldAction}
+              disabled={isGameFinished || !isPlayersTurn}
+            >
+              Fold
+            </UiButton>
+          </div>
         </div>
       </div>
-      {
-        !isGameFinished && (<>
+
+      
+      <div className="flex flex-col gap-2 w-full items-center">
+        <div className="flex flex-nowrap justify-center items-end gap-4 mt-4">
+          <Player 
+            key={roomState?.players?.[0]?.id} 
+            player={roomState?.players?.[0]} 
+            isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[0]?.id} 
+          />
+
+          <Player 
+            key={roomState?.players?.[1]?.id} 
+            player={roomState?.players?.[1]} 
+            isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[1]?.id} 
+          /> 
+          
+          <Player 
+            key={roomState?.players?.[2]?.id} 
+            player={roomState?.players?.[2]} 
+            isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[2]?.id} 
+          />
+
+          <Player 
+            key={roomState?.players?.[3]?.id} 
+            player={roomState?.players?.[3]} 
+            isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[3]?.id} 
+          />
+
+          <Player 
+            key={roomState?.players?.[4]?.id} 
+            player={roomState?.players?.[4]} 
+            isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[4]?.id} 
+          />
+        </div>
+
         <Table>
           <CommunityCards cards={roomState?.community_cards.length ? roomState.community_cards : INITIAL_COMMUNITY_CARDS} />
         </Table>
 
         <div className="flex flex-wrap gap-4 mt-4">
-          {roomState && roomState.players.map((p: PlayerProps["player"]) => (
-            <Player 
-              key={p.id} 
-              player={p} 
-              isCurrentTurn={roomState.current_turn_player_id === p.id} 
+          <Player 
+              key={roomState?.players?.[5]?.id} 
+              player={roomState?.players?.[5]} 
+              isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[5]?.id} 
             />
-          ))}
-        </div>
-        </>)
 
-      }
+            <Player 
+              key={roomState?.players?.[6]?.id} 
+              player={roomState?.players?.[6]} 
+              isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[6]?.id} 
+            /> 
+            
+            <Player 
+              key={roomState?.players?.[7]?.id} 
+              player={roomState?.players?.[7]} 
+              isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[7]?.id} 
+            />
 
-      {isGameFinished && winnerData?.winners && (
-        <div className="mt-4 p-4 border rounded w-fit" >
-          <h2 className="text-xl font-bold mb-2">Winners:</h2>
-          <ul>
-            {winnerData.winners.map((winner) => {
-              console.log('Vencedor:', winner);
-              return (
-              <li key={winner.id} className="text-lg">
-                <div>
-                  Player: {winner.name} - Hand: {winner.hand} - Winnings: {winner.amount_won}
-                </div>
-                <div className="flex flex-row gap-2 mt-2">
-                  {winner.hand_cards.map((card: string, index: number) => (
-                    <Card 
-                      key={index} 
-                      cardKey={card as keyof typeof DECK_SVG_MAP} 
-                    />
-                  ))}
-                </div>
-              </li>
-            )})}
-          </ul>
+            <Player 
+              key={roomState?.players?.[8]?.id} 
+              player={roomState?.players?.[8]} 
+              isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[8]?.id} 
+            />
+
+            <Player 
+              key={roomState?.players?.[9]?.id} 
+              player={roomState?.players?.[9]} 
+              isCurrentTurn={roomState?.current_turn_player_id === roomState?.players?.[9]?.id} 
+            />
+
         </div>
-      )}
+      </div>
     </div>
   );
 }

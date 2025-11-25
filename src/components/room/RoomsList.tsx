@@ -57,26 +57,30 @@ export function RoomsList() {
       )}
       
       {!isLoading && !error && (
-        <><ul className="space-y-4">
+       <>
+        <ul className="space-y-4 gap-2">
           {rooms.map((room) => (
             <li
               key={room.id}
-              className="p-4 border border-gray-300 rounded-md hover:shadow-md transition"
+              className="border border-gray-300 rounded-lg hover:shadow-md transition"
             >
               <UiButton
-                className="w-full text-left cursor-pointer disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="w-full p-4 text-left cursor-pointer text-neutral-900
+                  disabled:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed
+                  bg-green-300 hover:bg-green-400
+                "
                 disabled={room.current_players.length >= room.max_players || room.game_status === "in_progress"}
                 onClick={() => handleRoomSelect(room)}
                 popoverTarget="enter-room-modal"
               >
-                <div className="flex flex-row gap-1.5 items-center">
-                  <h2 className="text-xl font-bold">{room.name}</h2>
-                  <span className="text-sm font-bold text-neutral-400">(#{room.id})</span>
+                <div className="flex flex-row gap-1.5 items-center text-neutral-900">
+                  <h2 className="text-xl font-bold ">{room.name}</h2>
+                  <span className="text-sm font-bold">(#{room.id})</span>
                 </div>
-                <p>
+                <p className="text-neutral-900">
                   Jogadores: {room.current_players.length} / {room.max_players}
                 </p>
-                <p>
+                <p className="text-neutral-900">
                   Status do Jogo: {room.has_game ? room.game_status : "Nenhum jogo em andamento"}
                 </p>
               </UiButton>
